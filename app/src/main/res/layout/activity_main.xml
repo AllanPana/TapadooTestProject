@@ -8,10 +8,14 @@
         android:id="@+id/appBar"
         layout="@layout/app_bar"/>
 
-    <TextView
-        android:layout_below="@+id/appBar"
-        android:layout_width="match_parent"
+    <fragment
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Allan Pana"
-        android:textSize="22dp"/>
+        android:name="com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentAllBooks"
+        android:id="@+id/fragmentAllBook"
+        android:layout_below="@+id/appBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
 </RelativeLayout>
