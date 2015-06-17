@@ -2,6 +2,7 @@ package com.tapadoo.pana.allan.tapadootestproject.fragments;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -188,6 +189,10 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
     @Override
     public void myREcyclerViewOnClick(View view, int position) {
+
+        /*recyclerViewBook.setBackgroundColor(Color.BLUE);
+        view.setBackgroundColor(Color.RED);*/
+
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentBookDetail fragmentBookDetail =
                 (FragmentBookDetail) fragmentManager.findFragmentById(R.id.fragmentBookDetails);

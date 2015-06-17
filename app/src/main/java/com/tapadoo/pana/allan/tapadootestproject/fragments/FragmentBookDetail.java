@@ -58,6 +58,7 @@ public class FragmentBookDetail extends Fragment {
         Intent intent = getActivity().getIntent();
         mID = intent.getIntExtra("id", 100);
         textViewDescription = (TextView) view.findViewById(R.id.textViewDescription);
+        textViewDescription.setMovementMethod(new ScrollingMovementMethod());
         textViewTitle = (TextView) view.findViewById(R.id.textViewTitle);
         textViewAuthor = (TextView) view.findViewById(R.id.textViewAuthor);
         textViewIsbn = (TextView) view.findViewById(R.id.textViewIsbn);
@@ -73,12 +74,12 @@ public class FragmentBookDetail extends Fragment {
      */
     public void sendJsonRequest(int id) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                END_POINT_URL+mID,
+                END_POINT_URL+id,
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        TagNToast.setLog("success........................................"+mID);
+                        TagNToast.setLog("success........................................");
                         mBook = parseJsonResponse(jsonObject);
                         setBookDetails();
                     }

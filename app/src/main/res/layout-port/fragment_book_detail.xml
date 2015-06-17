@@ -45,6 +45,7 @@
             android:padding="2dp"
             android:layout_margin="@dimen/small_padding"
             android:background="#5e5c6ab0"
+            android:gravity="center"
             android:weightSum="2.0">
             <TextView
                 android:id="@+id/textViewLblTitle"
@@ -68,6 +69,7 @@
             android:padding="2dp"
             android:layout_margin="@dimen/small_padding"
             android:background="#5e5c6ab0"
+            android:gravity="center"
             android:weightSum="2.0">
             <TextView
                 android:id="@+id/textViewLblAuthor"
@@ -91,6 +93,7 @@
             android:padding="2dp"
             android:background="#5e5c6ab0"
             android:layout_margin="@dimen/small_padding"
+            android:gravity="center"
             android:weightSum="2.0">
             <TextView
                 android:id="@+id/textViewLblIsbn"
@@ -114,6 +117,7 @@
             android:padding="2dp"
             android:background="#5e5c6ab0"
             android:layout_margin="@dimen/small_padding"
+            android:gravity="center"
             android:weightSum="2.0">
             <TextView
                 android:id="@+id/textViewLblPrice"

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minHeight="80dp"
-    android:background="#10a7b0a4"
+    android:background="#5e5c6ab0"
     android:layout_margin="@dimen/small_padding"
     android:paddingRight="@dimen/large_text"
     android:padding="@dimen/small_padding"
@@ -14,6 +14,7 @@
         android:id="@+id/textViewPrice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
         android:textSize="@dimen/medium_text"
         android:layout_weight="0.4"
         android:text="$99"/>
@@ -37,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="bottom|end"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/small_text"
             android:text="Author"/>
     </LinearLayout>

@@ -3,24 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="@dimen/small_padding"
     android:weightSum="2.0"
     tools:context="com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentBookDetail">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/small_padding"
-        android:padding="@dimen/large_padding"
-        android:background="#5e5c6ab0"
-        android:layout_weight="1.0">
+        android:orientation="vertical"
+        android:padding="@dimen/small_padding"
+        android:layout_weight="2.0">
 
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="#5e5c6ab0"
+            android:padding ="@dimen/medium_padding"
+            android:text="Books Title here/ full description" />
 
         <TextView
             android:id="@+id/textViewDescription"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/small_padding"
+            android:padding="@dimen/large_padding"
+            android:background="#5e5c6ab0"
             android:scrollbars="vertical"
             android:gravity="center_vertical"
             android:text="Books details here/ full description" />
@@ -30,10 +37,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.0"
+        android:layout_weight="0.0"
         android:layout_margin="@dimen/small_padding"
         android:scrollbars="vertical"
-        android:gravity="center"
+        android:visibility="gone"
         android:padding="@dimen/medium_padding"
         android:orientation="vertical">
 
@@ -43,8 +50,6 @@
             android:minHeight="48dp"
             android:orientation="horizontal"
             android:padding="2dp"
-            android:layout_margin="@dimen/small_padding"
-            android:background="#5e5c6ab0"
             android:weightSum="2.0">
             <TextView
                 android:id="@+id/textViewLblTitle"
@@ -52,12 +57,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:text="Title" />
-            <TextView
+            <!--<TextView
                 android:id="@+id/textViewTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
-                android:text="Books Title here/ full description" />
+                android:text="Books Title here/ full description" />-->
         </LinearLayout>
 
         <LinearLayout
@@ -66,8 +71,6 @@
             android:minHeight="48dp"
             android:orientation="horizontal"
             android:padding="2dp"
-            android:layout_margin="@dimen/small_padding"
-            android:background="#5e5c6ab0"
             android:weightSum="2.0">
             <TextView
                 android:id="@+id/textViewLblAuthor"
@@ -89,8 +92,6 @@
             android:minHeight="48dp"
             android:orientation="horizontal"
             android:padding="2dp"
-            android:background="#5e5c6ab0"
-            android:layout_margin="@dimen/small_padding"
             android:weightSum="2.0">
             <TextView
                 android:id="@+id/textViewLblIsbn"
@@ -112,8 +113,6 @@
             android:minHeight="48dp"
             android:orientation="horizontal"
             android:padding="2dp"
-            android:background="#5e5c6ab0"
-            android:layout_margin="@dimen/small_padding"
             android:weightSum="2.0">
             <TextView
                 android:id="@+id/textViewLblPrice"
