@@ -1,7 +1,10 @@
 package com.tapadoo.pana.allan.tapadootestproject.extras;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.tapadoo.pana.allan.tapadootestproject.MyApplication;
@@ -16,6 +19,14 @@ public class TagNToast {
     }
 
     public static void setLog(String log){
-        Log.d("tapadoo",log);
+        Log.d("tapadoo", log);
+    }
+
+    public static void showProgressBar(ProgressDialog progressBar){
+        progressBar.setMessage("Connecting to server....");
+        progressBar.setCancelable(false);
+        progressBar.setIndeterminate(true);
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.show();
     }
 }

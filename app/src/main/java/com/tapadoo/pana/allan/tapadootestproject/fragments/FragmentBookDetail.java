@@ -1,6 +1,7 @@
 package com.tapadoo.pana.allan.tapadootestproject.fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,7 @@ public class FragmentBookDetail extends Fragment {
     private static final String END_POINT_URL = "http://tpbookserver.herokuapp.com/book/";
     public Books mBook;
 
+    private ProgressDialog progressDialog;
     private TextView textViewDescription;
     private TextView textViewTitle;
     private TextView textViewAuthor;
@@ -64,6 +66,8 @@ public class FragmentBookDetail extends Fragment {
         textViewIsbn = (TextView) view.findViewById(R.id.textViewIsbn);
         textViewPrice = (TextView) view.findViewById(R.id.textViewPrice);
 
+        progressDialog = new ProgressDialog(getActivity());
+
         sendJsonRequest(mID);
         return view;
     }
@@ -79,16 +83,20 @@ public class FragmentBookDetail extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        TagNToast.setLog("success........................................");
                         mBook = parseJsonResponse(jsonObject);
                         setBookDetails();
+                        if(progressDialog != null && progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         VolleyErrorHandler.handleVolleyError(volleyError, textViewDescription);
-                        TagNToast.setLog(volleyError.toString());
+                        if(progressDialog != null && progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
                     }
                 });
 
@@ -97,6 +105,7 @@ public class FragmentBookDetail extends Fragment {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         VolleySingleton.getInstance().addToRequestQueue(jsonObjectRequest);
+        TagNToast.showProgressBar(progressDialog);
     }
 
 

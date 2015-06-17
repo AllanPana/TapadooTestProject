@@ -1,6 +1,7 @@
 package com.tapadoo.pana.allan.tapadootestproject.fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
 
 
+    private ProgressDialog progressDialog;
     private RecyclerView recyclerViewBook;
     private BookRecycleViewAdapter bookRecycleViewAdapter;
     private List<Books> mBooksList;
@@ -73,6 +75,8 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
         bookRecycleViewAdapter = new BookRecycleViewAdapter(getActivity());
         recyclerViewBook.setAdapter(bookRecycleViewAdapter);
         bookRecycleViewAdapter.setMyRecyclerViewOnClickListener(this);
+
+        progressDialog = new ProgressDialog(getActivity());
 
         if(savedInstanceState != null){
             mBooksList = savedInstanceState.getParcelableArrayList(BOOKS_PARCEL);
@@ -108,14 +112,18 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
                         textViewVolleyError.setVisibility(View.GONE);
                         mBooksList = parseJSonResponse(jsonArray);
                         bookRecycleViewAdapter.setBooksList(mBooksList);
-                        TagNToast.setLog(mBooksList.size()+"");
+                        if(progressDialog != null && progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         VolleyErrorHandler.handleVolleyError(volleyError, textViewVolleyError);
-                        TagNToast.setLog(volleyError.toString());
+                        if(progressDialog != null && progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
                     }
                 });
 
@@ -124,6 +132,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         VolleySingleton.getInstance().addToRequestQueue(jsonArrayRequest);
+        TagNToast.showProgressBar(progressDialog);
     }
 
 
