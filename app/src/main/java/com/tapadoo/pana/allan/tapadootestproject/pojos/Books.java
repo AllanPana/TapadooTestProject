@@ -1,9 +1,12 @@
 package com.tapadoo.pana.allan.tapadootestproject.pojos;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by allan on 15/06/15.
  */
-public class Books {
+public class Books implements Parcelable{
 
 
     private int id;
@@ -18,7 +21,8 @@ public class Books {
     public Books() {
     }
 
-    public Books(String title, String author, int price) {
+    public Books(int id, String title, String author, int price) {
+        this.id = id;
         this.title = title;
         this.price = price;
         this.author = author;
@@ -41,6 +45,16 @@ public class Books {
         this.author = author;
     }
 
+    public Books(Parcel in){
+
+        id=in.readInt();
+        title=in.readString();
+        isbn=in.readString();
+        description=in.readString();
+        price=in.readInt();
+        currencyCode=in.readString();
+        author=in.readString();
+    }
 
     public int getId() {
         return id;
@@ -98,12 +112,37 @@ public class Books {
         this.author = author;
     }
 
+
+
+
     @Override
-    public String toString() {
-        return "Books{" +
-                "title='" + title + '\'' +
-                ", price=" + price +
-                ", author='" + author + '\'' +
-                '}';
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(isbn);
+        dest.writeString(description);
+        dest.writeInt(price);
+        dest.writeString(currencyCode);
+        dest.writeString(author);
+    }
+
+    /**
+     *  a static field called CREATOR, which is an object implementing the Parcelable.Creator interface.
+     */
+    public static final Parcelable.Creator<Books> CREATOR
+            = new Parcelable.Creator<Books>() {
+        public Books createFromParcel(Parcel in) {
+            return new Books(in);
+        }
+
+        public Books[] newArray(int size) {
+            return new Books[size];
+        }
+    };
+
 }

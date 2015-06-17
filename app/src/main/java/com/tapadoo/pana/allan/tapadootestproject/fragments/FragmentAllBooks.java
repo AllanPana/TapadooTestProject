@@ -1,15 +1,20 @@
 package com.tapadoo.pana.allan.tapadootestproject.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -19,7 +24,10 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.tapadoo.pana.allan.tapadootestproject.R;
+import com.tapadoo.pana.allan.tapadootestproject.activities.BookDetailsActivity;
+import com.tapadoo.pana.allan.tapadootestproject.adapters.BookRecycleViewAdapter;
 import com.tapadoo.pana.allan.tapadootestproject.extras.TagNToast;
+import com.tapadoo.pana.allan.tapadootestproject.network.VolleyErrorHandler;
 import com.tapadoo.pana.allan.tapadootestproject.network.VolleySingleton;
 import com.tapadoo.pana.allan.tapadootestproject.pojos.Books;
 
@@ -35,11 +43,15 @@ import static com.tapadoo.pana.allan.tapadootestproject.extras.MyConstant.*;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentAllBooks extends Fragment {
+public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter.MyRecyclerViewOnClickListener{
 
     private static final String END_POINT_URL = "http://tpbookserver.herokuapp.com/books ";
+    private static final String BOOKS_PARCEL = "booksParcel";
 
-    private Communicator communicator;
+
+
+    private RecyclerView recyclerViewBook;
+    private BookRecycleViewAdapter bookRecycleViewAdapter;
     private List<Books> mBooksList;
     private TextView textViewVolleyError;
 
@@ -54,13 +66,39 @@ public class FragmentAllBooks extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_books, container, false);
         mBooksList = new ArrayList<>();
         textViewVolleyError = (TextView) view.findViewById(R.id.textViewVolleyError);
+        recyclerViewBook = (RecyclerView) view.findViewById(R.id.recycleViewBook);
+        recyclerViewBook.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        sendJSonRequest();
+        bookRecycleViewAdapter = new BookRecycleViewAdapter(getActivity());
+        recyclerViewBook.setAdapter(bookRecycleViewAdapter);
+        bookRecycleViewAdapter.setMyRecyclerViewOnClickListener(this);
+
+        if(savedInstanceState != null){
+            mBooksList = savedInstanceState.getParcelableArrayList(BOOKS_PARCEL);
+            bookRecycleViewAdapter.setBooksList(mBooksList);
+        }else {
+            sendJSonRequest();
+        }
+
+
         return view;
     }
 
 
-    //process networking request
+    /**
+     *
+     * @param outState = mBookList
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList(BOOKS_PARCEL, (ArrayList<? extends Parcelable>) mBooksList);
+    }
+
+    /**
+     * Process networking request
+     */
     private void sendJSonRequest() {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(END_POINT_URL,
                 new Response.Listener<JSONArray>() {
@@ -68,41 +106,27 @@ public class FragmentAllBooks extends Fragment {
                     public void onResponse(JSONArray jsonArray) {
                         textViewVolleyError.setVisibility(View.GONE);
                         mBooksList = parseJSonResponse(jsonArray);
-                        TagNToast.setToast(getActivity(), mBooksList.toString());
-                        TagNToast.setLog(mBooksList.toString());
+                        bookRecycleViewAdapter.setBooksList(mBooksList);
+                        TagNToast.setLog(mBooksList.size()+"");
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        handleVolleyError(volleyError);
+                        VolleyErrorHandler.handleVolleyError(volleyError, textViewVolleyError);
+                        TagNToast.setLog(volleyError.toString());
                     }
                 });
+
+        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         VolleySingleton.getInstance().addToRequestQueue(jsonArrayRequest);
     }
 
 
-    /**
-     *
-     * @param error = VolleyError
-     */
-    private void handleVolleyError(VolleyError error){
-        textViewVolleyError.setVisibility(View.VISIBLE);
-        String volleyError = "ERROR";
-        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-            volleyError = "Network Error or No Connection";
-        } else if (error instanceof AuthFailureError) {
-            volleyError = "Authentication Error";
-        } else if (error instanceof ServerError) {
-            volleyError = "Server Error";
-        } else if (error instanceof NetworkError) {
-            volleyError = "Network Error";
-        } else if (error instanceof ParseError) {
-            volleyError = "Parser Error";
-        }
-        textViewVolleyError.setText(volleyError);
-    }
+
 
     /**
      * @param jsonArray = jsonResponse from Volley
@@ -148,9 +172,9 @@ public class FragmentAllBooks extends Fragment {
                     }
 
                     //create books object with title, author, price
-                    Books books = new Books(title, author, price);
-                    // only add the data into books if  title has a right value
-                    if (!title.equals(NA)) {
+                    Books books = new Books(id,title, author, price);
+                    // only add the data into books if  title has a right value and id not =0
+                    if ((!title.equals(NA)) && id != 0) {
                         list.add(books);
                     }
 
@@ -162,18 +186,25 @@ public class FragmentAllBooks extends Fragment {
         return list;
     }
 
-    /**
-     * @param communicator
-     */
-    public void setCommunicator(Communicator communicator) {
-        this.communicator = communicator;
-    }
+    @Override
+    public void myREcyclerViewOnClick(View view, int position) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentBookDetail fragmentBookDetail =
+                (FragmentBookDetail) fragmentManager.findFragmentById(R.id.fragmentBookDetails);
+        Books book = mBooksList.get(position);
 
+        //check if your layout in a landscape orientation
+        if(fragmentBookDetail != null && fragmentBookDetail.isVisible()){
+            TagNToast.setLog("landscape mode................" + book.getId());
+            //fragmentBookDetail.setBookDetails(fragmentBookDetail.mBook);
+            fragmentBookDetail.sendJsonRequest(book.getId());
 
-    /**
-     * use to communicate with the MainActivity
-     */
-    public interface Communicator {
-        public void setBookDetail(int position);
+        }else {
+            TagNToast.setLog("portrait mode................"+book.getId());
+            Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
+            intent.putExtra("id", book.getId());
+            startActivity(intent);
+        }
+
     }
 }

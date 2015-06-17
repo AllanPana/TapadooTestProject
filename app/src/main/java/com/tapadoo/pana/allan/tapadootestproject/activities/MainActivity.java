@@ -13,7 +13,7 @@ import com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentAllBooks;
 import com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentBookDetail;
 
 
-public class MainActivity extends AppCompatActivity implements FragmentAllBooks.Communicator{
+public class MainActivity extends AppCompatActivity{
 
     private Toolbar toolbar;
     private FragmentAllBooks fragmentAllBook;
@@ -27,10 +27,8 @@ public class MainActivity extends AppCompatActivity implements FragmentAllBooks.
 
         toolbar = (Toolbar) findViewById(R.id.appBar);
         setSupportActionBar(toolbar);
-
         fragmentManager = getSupportFragmentManager();
         fragmentAllBook = (FragmentAllBooks) fragmentManager.findFragmentById(R.id.fragmentAllBook);
-        fragmentAllBook.setCommunicator(this);
 
     }
 
@@ -56,8 +54,5 @@ public class MainActivity extends AppCompatActivity implements FragmentAllBooks.
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void setBookDetail(int position) {
 
-    }
 }

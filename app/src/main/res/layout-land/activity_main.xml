@@ -1,8 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <include
+        android:id="@+id/appBar"
+        layout="@layout/app_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_below="@id/appBar">
+
+        <fragment
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:name="com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentAllBooks"
+            android:id="@+id/fragmentAllBook"
+            android:layout_weight="1"
+            tools:layout="@layout/fragment_all_books" />
+
+        <fragment
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:name="com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentBookDetail"
+            android:id="@+id/fragmentBookDetails"
+            android:layout_weight="1"
+            tools:layout="@layout/fragment_book_detail" />
+
+
+    </LinearLayout>
 
 
 
-</LinearLayout>
+
+</RelativeLayout>
