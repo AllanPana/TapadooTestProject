@@ -13,4 +13,8 @@ public class MyConstant {
     public static final String KEY_CURRENCY_CODE = "currencyCode";
     public static final String KEY_AUTHOR = "author";
     public static final String KEY_DESCRIPTION = "description";
+
+    public static final String EUR = "EUR";
+    public static final String GBP = "GBP";
+    public static final String USD = "USD";
 }

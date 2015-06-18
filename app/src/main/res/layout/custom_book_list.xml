@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:minHeight="80dp"
     android:background="#5e5c6ab0"
-    android:layout_margin="@dimen/small_padding"
+    android:layout_margin ="@dimen/small_padding"
     android:paddingRight="@dimen/large_text"
     android:padding="@dimen/small_padding"
     android:weightSum="2.0"
@@ -14,7 +14,7 @@
         android:id="@+id/textViewPrice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
+        android:textColor="#ff168b1e"
         android:textSize="@dimen/medium_text"
         android:layout_weight="0.4"
         android:text="$99"/>

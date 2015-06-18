@@ -7,14 +7,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.tapadoo.pana.allan.tapadootestproject.R;
+import com.tapadoo.pana.allan.tapadootestproject.extras.TagNToast;
 import com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentAllBooks;
 import com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentBookDetail;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private static final String SORT_AUTHOR = "sortAuthor";
+    private static final String SORT_TITLE = "sortTitle";
+    private static final String SORT_PRICE = "sortPrice";
     private Toolbar toolbar;
     private FragmentAllBooks fragmentAllBook;
     private FragmentBookDetail fragmentBookDetail;
@@ -29,6 +38,8 @@ public class MainActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
         fragmentManager = getSupportFragmentManager();
         fragmentAllBook = (FragmentAllBooks) fragmentManager.findFragmentById(R.id.fragmentAllBook);
+
+        setFAB();
 
     }
 
@@ -55,4 +66,56 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
+    /**
+     * All about Floating Action Buttonn
+     */
+    public void setFAB(){
+        ImageView fabMainIcon = new ImageView(this);
+        fabMainIcon.setImageResource(R.mipmap.ic_launcher);
+
+        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+                .setContentView(fabMainIcon)
+                .build();
+
+
+        ImageView sortByTitle = new ImageView(this);
+        ImageView sortByAuthor = new ImageView(this);
+        ImageView sortByPrice = new ImageView(this);
+        sortByTitle.setImageResource(R.mipmap.ic_launcher);
+        sortByAuthor.setImageResource(R.mipmap.ic_launcher);
+        sortByPrice.setImageResource(R.mipmap.ic_launcher);
+
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+        SubActionButton buttonSortByTitle = itemBuilder.setContentView(sortByTitle).build();
+        SubActionButton buttonSortByAuthor = itemBuilder.setContentView(sortByAuthor).build();
+        SubActionButton buttonSortByPrice = itemBuilder.setContentView(sortByPrice).build();
+
+        buttonSortByTitle.setTag(SORT_TITLE);
+        buttonSortByAuthor.setTag(SORT_AUTHOR);
+        buttonSortByPrice.setTag(SORT_PRICE);
+        buttonSortByTitle.setOnClickListener(this);
+        buttonSortByAuthor.setOnClickListener(this);
+        buttonSortByPrice.setOnClickListener(this);
+
+
+        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(buttonSortByTitle)
+                .addSubActionView(buttonSortByAuthor)
+                .addSubActionView(buttonSortByPrice)
+                .attachTo(actionButton)
+                .build();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getTag().equals(SORT_TITLE)){
+            TagNToast.setToast(this,v.getTag()+"");
+        }
+        if(v.getTag().equals(SORT_AUTHOR)){
+            TagNToast.setToast(this,v.getTag()+"");
+        }
+        if(v.getTag().equals(SORT_PRICE)){
+            TagNToast.setToast(this,v.getTag()+"");
+        }
+    }
 }

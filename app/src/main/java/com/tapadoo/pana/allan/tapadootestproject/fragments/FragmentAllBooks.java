@@ -52,6 +52,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
 
 
+
     private ProgressDialog progressDialog;
     private RecyclerView recyclerViewBook;
     private BookRecycleViewAdapter bookRecycleViewAdapter;
@@ -182,7 +183,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
                     }
 
                     //create books object with title, author, price
-                    Books books = new Books(id,title, author, price);
+                    Books books = new Books(id,title, author, price,currencyCode);
                     // only add the data into books if  title has a right value and id not =0
                     if ((!title.equals(NA)) && id != 0) {
                         list.add(books);

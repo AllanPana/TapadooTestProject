@@ -3,6 +3,7 @@ package com.tapadoo.pana.allan.tapadootestproject.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
@@ -93,6 +94,7 @@ public class FragmentBookDetail extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
+                        textViewDescription.setTextColor(Color.RED);
                         VolleyErrorHandler.handleVolleyError(volleyError, textViewDescription);
                         if(progressDialog != null && progressDialog.isShowing()){
                             progressDialog.dismiss();
@@ -110,11 +112,26 @@ public class FragmentBookDetail extends Fragment {
 
 
     public void setBookDetails() {
+
+        String currencySmbol=NA;
+        if(mBook.getCurrencyCode().equalsIgnoreCase(EUR)){
+            currencySmbol="€";
+        }
+        if(mBook.getCurrencyCode().equalsIgnoreCase(GBP)){
+            currencySmbol="£";
+        }
+        if(mBook.getCurrencyCode().equalsIgnoreCase(USD)){
+            currencySmbol="$";
+        }
+
+        double p = mBook.getPrice();
+        double price = p/100;
+
         textViewDescription.setText(mBook.getDescription());
         textViewTitle.setText(mBook.getTitle());
         textViewAuthor.setText(mBook.getAuthor());
         textViewIsbn.setText(mBook.getIsbn());
-        textViewPrice.setText(mBook.getPrice() + "");
+        textViewPrice.setText(currencySmbol+price);
     }
 
     private Books parseJsonResponse(JSONObject jsonObject) {

@@ -21,11 +21,12 @@ public class Books implements Parcelable{
     public Books() {
     }
 
-    public Books(int id, String title, String author, int price) {
+    public Books(int id, String title, String author, int price, String currencyCode) {
         this.id = id;
         this.title = title;
         this.price = price;
         this.author = author;
+        this.currencyCode = currencyCode;
     }
 
 

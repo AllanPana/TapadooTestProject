@@ -16,6 +16,7 @@ import com.tapadoo.pana.allan.tapadootestproject.activities.BookDetailsActivity;
 import com.tapadoo.pana.allan.tapadootestproject.extras.TagNToast;
 import com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentBookDetail;
 import com.tapadoo.pana.allan.tapadootestproject.pojos.Books;
+import static com.tapadoo.pana.allan.tapadootestproject.extras.MyConstant.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +55,22 @@ public class BookRecycleViewAdapter extends RecyclerView.Adapter<BookRecycleView
     @Override
     public void onBindViewHolder(ViewHolderBook holder, int position) {
         book = booksList.get(position);
+        String currencySmbol=NA;
+        if(book.getCurrencyCode().equalsIgnoreCase(EUR)){
+            currencySmbol="€";
+        }
+        if(book.getCurrencyCode().equalsIgnoreCase(GBP)){
+            currencySmbol="£";
+        }
+        if(book.getCurrencyCode().equalsIgnoreCase(USD)){
+            currencySmbol="$";
+        }
+
+        double p = book.getPrice();
+        double price = p/100;
         holder.textViewTitle.setText(book.getTitle());
         holder.textViewAuthor.setText(book.getAuthor());
-        holder.textViewPrice.setText("$ "+book.getPrice());
+        holder.textViewPrice.setText(currencySmbol+price);
     }
 
     @Override
