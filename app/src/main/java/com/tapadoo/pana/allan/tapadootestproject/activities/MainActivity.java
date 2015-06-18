@@ -71,21 +71,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void setFAB(){
         ImageView fabMainIcon = new ImageView(this);
-        fabMainIcon.setImageResource(R.mipmap.ic_launcher);
+        fabMainIcon.setImageResource(R.drawable.ic_add_white_36dp);
 
         FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
                 .setContentView(fabMainIcon)
+                .setBackgroundDrawable(R.drawable.red_touch)
                 .build();
 
 
         ImageView sortByTitle = new ImageView(this);
         ImageView sortByAuthor = new ImageView(this);
         ImageView sortByPrice = new ImageView(this);
-        sortByTitle.setImageResource(R.mipmap.ic_launcher);
-        sortByAuthor.setImageResource(R.mipmap.ic_launcher);
-        sortByPrice.setImageResource(R.mipmap.ic_launcher);
+        sortByTitle.setImageResource(R.drawable.ic_format_color_text_white_24dp);
+        sortByAuthor.setImageResource(R.drawable.ic_person_white_24dp);
+        sortByPrice.setImageResource(R.drawable.ic_attach_money_white_24dp);
 
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+        itemBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.red_touch));
         SubActionButton buttonSortByTitle = itemBuilder.setContentView(sortByTitle).build();
         SubActionButton buttonSortByAuthor = itemBuilder.setContentView(sortByAuthor).build();
         SubActionButton buttonSortByPrice = itemBuilder.setContentView(sortByPrice).build();
@@ -109,13 +111,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v.getTag().equals(SORT_TITLE)){
-            TagNToast.setToast(this,v.getTag()+"");
+            fragmentAllBook.sortBooksByTitle();
+
         }
         if(v.getTag().equals(SORT_AUTHOR)){
-            TagNToast.setToast(this,v.getTag()+"");
+            fragmentAllBook.sortBooksByAuthor();
         }
         if(v.getTag().equals(SORT_PRICE)){
-            TagNToast.setToast(this,v.getTag()+"");
+           fragmentAllBook.sortBooksByPrice();
         }
     }
 }

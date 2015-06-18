@@ -38,6 +38,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.tapadoo.pana.allan.tapadootestproject.extras.MyConstant.*;
@@ -197,11 +199,14 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
         return list;
     }
 
+
+    /**
+     *
+     * @param view
+     * @param position
+     */
     @Override
     public void myREcyclerViewOnClick(View view, int position) {
-
-        /*recyclerViewBook.setBackgroundColor(Color.BLUE);
-        view.setBackgroundColor(Color.RED);*/
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentBookDetail fragmentBookDetail =
@@ -221,5 +226,53 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
             startActivity(intent);
         }
 
+    }
+
+
+    /**
+     * Sort books by Title
+     */
+    public void sortBooksByTitle(){
+        Collections.sort(mBooksList, new Comparator<Books>() {
+            @Override
+            public int compare(Books lhs, Books rhs) {
+                return lhs.getTitle().compareToIgnoreCase(rhs.getTitle());
+            }
+        });
+        bookRecycleViewAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Sort Books by Author
+     */
+    public void sortBooksByAuthor(){
+        Collections.sort(mBooksList, new Comparator<Books>() {
+            @Override
+            public int compare(Books lhs, Books rhs) {
+                return lhs.getAuthor().compareToIgnoreCase(rhs.getAuthor());
+            }
+        });
+        bookRecycleViewAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Sort by Price
+     */
+    public void sortBooksByPrice(){
+        Collections.sort(mBooksList, new Comparator<Books>() {
+            @Override
+            public int compare(Books lhs, Books rhs) {
+                int lhsPrice = lhs.getPrice();
+                int rhsPrice = rhs.getPrice();
+                if(lhsPrice > rhsPrice){
+                    return 1;
+                }else if(lhsPrice < rhsPrice){
+                    return -1;
+                }else{
+                    return 0;
+                }
+            }
+        });
+        bookRecycleViewAdapter.notifyDataSetChanged();
     }
 }

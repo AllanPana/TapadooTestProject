@@ -14,14 +14,27 @@ import com.tapadoo.pana.allan.tapadootestproject.MyApplication;
  */
 public class TagNToast {
 
+    /**
+     * Toast
+     * @param context
+     * @param text
+     */
     public static void setToast(Context context,String text){
         Toast.makeText(context,text,Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Log
+     * @param log
+     */
     public static void setLog(String log){
         Log.d("tapadoo", log);
     }
 
+    /**
+     * Progressbar
+     * @param progressBar
+     */
     public static void showProgressBar(ProgressDialog progressBar){
         progressBar.setMessage("Connecting to server....");
         progressBar.setCancelable(false);
