@@ -1,11 +1,8 @@
 package com.tapadoo.pana.allan.tapadootestproject.fragments;
 
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -17,20 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.tapadoo.pana.allan.tapadootestproject.R;
 import com.tapadoo.pana.allan.tapadootestproject.activities.BookDetailsActivity;
 import com.tapadoo.pana.allan.tapadootestproject.adapters.BookRecycleViewAdapter;
-import com.tapadoo.pana.allan.tapadootestproject.extras.TagNToast;
+import com.tapadoo.pana.allan.tapadootestproject.extras.Util;
 import com.tapadoo.pana.allan.tapadootestproject.network.VolleyErrorHandler;
 import com.tapadoo.pana.allan.tapadootestproject.network.VolleySingleton;
 import com.tapadoo.pana.allan.tapadootestproject.pojos.Books;
@@ -104,6 +95,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
         super.onSaveInstanceState(outState);
 
         outState.putParcelableArrayList(BOOKS_PARCEL, (ArrayList<? extends Parcelable>) mBooksList);
+
     }
 
     /**
@@ -137,7 +129,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         VolleySingleton.getInstance().addToRequestQueue(jsonArrayRequest);
-        TagNToast.showProgressBar(progressDialog);
+        Util.showProgressBar(progressDialog);
     }
 
 
@@ -217,12 +209,12 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
         //check if your layout in a landscape orientation
         if(fragmentBookDetail != null && fragmentBookDetail.isVisible()){
-            TagNToast.setLog("landscape mode................" + book.getId());
+            Util.setLog("landscape mode................" + book.getId());
             //fragmentBookDetail.setBookDetails(fragmentBookDetail.mBook);
             fragmentBookDetail.sendJsonRequest(book.getId());
 
         }else {
-            TagNToast.setLog("portrait mode................"+book.getId());
+            Util.setLog("portrait mode................" + book.getId());
             Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
             intent.putExtra("id", book.getId());
             startActivity(intent);
@@ -309,7 +301,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
         for(Books b : filteredModelList){
             Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
             intent.putExtra("id", b.getId());
-            TagNToast.setToast(getActivity(),"id..............."+b.getId());
+            Util.setToast(getActivity(), "id..............." + b.getId());
             startActivity(intent);
         }
 
@@ -407,7 +399,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
         Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
         intent.putExtra("id", filteredModelList.get(0));
         startActivity(intent);
-        TagNToast.setLog(query);
+        Util.setLog(query);
         return true;
     }
 

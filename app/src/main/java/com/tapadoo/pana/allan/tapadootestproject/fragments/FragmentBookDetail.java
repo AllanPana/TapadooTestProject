@@ -18,16 +18,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.tapadoo.pana.allan.tapadootestproject.R;
-import com.tapadoo.pana.allan.tapadootestproject.extras.TagNToast;
+import com.tapadoo.pana.allan.tapadootestproject.extras.Util;
 import com.tapadoo.pana.allan.tapadootestproject.network.VolleyErrorHandler;
 import com.tapadoo.pana.allan.tapadootestproject.network.VolleySingleton;
 import com.tapadoo.pana.allan.tapadootestproject.pojos.Books;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.tapadoo.pana.allan.tapadootestproject.extras.MyConstant.*;
 
@@ -46,7 +43,6 @@ public class FragmentBookDetail extends Fragment {
     private TextView textViewIsbn;
     private TextView textViewPrice;
     private int mID;
-
 
     public FragmentBookDetail() {
         // Required empty public constructor
@@ -69,9 +65,12 @@ public class FragmentBookDetail extends Fragment {
 
         progressDialog = new ProgressDialog(getActivity());
 
-        sendJsonRequest(mID);
+
+            sendJsonRequest(mID);
+
         return view;
     }
+
 
 
     /**
@@ -84,6 +83,7 @@ public class FragmentBookDetail extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
+                        textViewDescription.setTextColor(Color.BLACK);
                         mBook = parseJsonResponse(jsonObject);
                         setBookDetails();
                         if(progressDialog != null && progressDialog.isShowing()){
@@ -107,7 +107,7 @@ public class FragmentBookDetail extends Fragment {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         VolleySingleton.getInstance().addToRequestQueue(jsonObjectRequest);
-        TagNToast.showProgressBar(progressDialog);
+        Util.showProgressBar(progressDialog);
     }
 
 

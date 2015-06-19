@@ -10,13 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.tapadoo.pana.allan.tapadootestproject.R;
-import com.tapadoo.pana.allan.tapadootestproject.extras.TagNToast;
 import com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentAllBooks;
 import com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentBookDetail;
 
@@ -45,6 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    /**
+     *
+     * @param menu = SearchView
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -63,9 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    /**
-     * All about Floating Action Buttonn
-     */
+
+     //========All about Floating Action Buttonn
     public void setFAB(){
         ImageView fabMainIcon = new ImageView(this);
         fabMainIcon.setImageResource(R.drawable.ic_add_white_36dp);
@@ -124,10 +127,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            fragmentAllBook.sortBooksByPrice();
         }
     }
+    //=========end FAB setup
 
 
 
 
+    //=======================SEARCHVIEW=========================
     @Override
     public boolean onQueryTextSubmit(String query) {
         fragmentAllBook.onQueryTextSubmit(query);
@@ -139,10 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentAllBook.onQueryTextChange(newText);
         return true;
     }
+    //SearchView setup end
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
 
-    }
-}
+}//class end

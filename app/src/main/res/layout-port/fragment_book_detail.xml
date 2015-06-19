@@ -57,8 +57,7 @@
                 android:id="@+id/textViewTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:text="Books Title here/ full description" />
+                android:layout_weight="1.5"/>
         </LinearLayout>
 
         <LinearLayout
@@ -81,8 +80,7 @@
                 android:id="@+id/textViewAuthor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:text="Books Title here/ full description" />
+                android:layout_weight="1.5"/>
         </LinearLayout>
 
         <LinearLayout
@@ -105,8 +103,7 @@
                 android:id="@+id/textViewIsbn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:text="1234567" />
+                android:layout_weight="1.5"/>
         </LinearLayout>
 
         <LinearLayout
@@ -129,8 +126,7 @@
                 android:id="@+id/textViewPrice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:text="$99" />
+                android:layout_weight="1.5"/>
         </LinearLayout>
 
     </LinearLayout>

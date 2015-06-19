@@ -12,7 +12,7 @@ import com.tapadoo.pana.allan.tapadootestproject.MyApplication;
 /**
  * Created by allan on 15/06/15.
  */
-public class TagNToast {
+public class Util {
 
     /**
      * Toast

@@ -1,10 +1,6 @@
 package com.tapadoo.pana.allan.tapadootestproject.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tapadoo.pana.allan.tapadootestproject.R;
-import com.tapadoo.pana.allan.tapadootestproject.activities.BookDetailsActivity;
-import com.tapadoo.pana.allan.tapadootestproject.extras.TagNToast;
-import com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentBookDetail;
 import com.tapadoo.pana.allan.tapadootestproject.pojos.Books;
 import static com.tapadoo.pana.allan.tapadootestproject.extras.MyConstant.*;
 
