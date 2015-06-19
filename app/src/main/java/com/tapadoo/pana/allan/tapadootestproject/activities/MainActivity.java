@@ -1,14 +1,16 @@
 package com.tapadoo.pana.allan.tapadootestproject.activities;
 
-import android.support.v4.app.Fragment;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
@@ -19,7 +21,7 @@ import com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentAllBooks;
 import com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentBookDetail;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SearchView.OnQueryTextListener {
 
     private static final String SORT_AUTHOR = "sortAuthor";
     private static final String SORT_TITLE = "sortTitle";
@@ -47,22 +49,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+
+        searchView.setOnQueryTextListener(this);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -79,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
 
 
+        //Set up Floating action menu
         ImageView sortByTitle = new ImageView(this);
         ImageView sortByAuthor = new ImageView(this);
         ImageView sortByPrice = new ImageView(this);
@@ -108,6 +106,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
     }
 
+
+    /**
+     *
+     * @param v = action menu button
+     */
     @Override
     public void onClick(View v) {
         if(v.getTag().equals(SORT_TITLE)){
@@ -120,5 +123,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(v.getTag().equals(SORT_PRICE)){
            fragmentAllBook.sortBooksByPrice();
         }
+    }
+
+
+
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        fragmentAllBook.onQueryTextSubmit(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        fragmentAllBook.onQueryTextChange(newText);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
     }
 }

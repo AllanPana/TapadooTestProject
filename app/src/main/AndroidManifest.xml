@@ -18,6 +18,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.SearchableInfo"
+                android:resource="@xml/searchable"
+                />
         </activity>
         <activity
             android:name=".activities.BookDetailsActivity"

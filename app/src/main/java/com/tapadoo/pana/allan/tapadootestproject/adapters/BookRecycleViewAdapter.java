@@ -113,6 +113,7 @@ public class BookRecycleViewAdapter extends RecyclerView.Adapter<BookRecycleView
 
 
 
+    //Setter
     public void setMyRecyclerViewOnClickListener(MyRecyclerViewOnClickListener myRecyclerViewOnClickListener) {
         this.myRecyclerViewOnClickListener = myRecyclerViewOnClickListener;
     }

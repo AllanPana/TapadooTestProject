@@ -1,7 +1,9 @@
 package com.tapadoo.pana.allan.tapadootestproject.fragments;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -264,15 +266,161 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
             public int compare(Books lhs, Books rhs) {
                 int lhsPrice = lhs.getPrice();
                 int rhsPrice = rhs.getPrice();
-                if(lhsPrice > rhsPrice){
+                if (lhsPrice > rhsPrice) {
                     return 1;
-                }else if(lhsPrice < rhsPrice){
+                } else if (lhsPrice < rhsPrice) {
                     return -1;
-                }else{
+                } else {
                     return 0;
                 }
             }
         });
         bookRecycleViewAdapter.notifyDataSetChanged();
     }
+
+
+
+
+    //SEARCHVIEW IMPLEMENTATION
+
+
+    /**
+     *
+     * @param list = list of books to be filtered
+     * @param query = book title
+     * @return
+     */
+    private List<Books> filter(List<Books> list, String query) {
+        query = query.toLowerCase();
+
+        final List<Books> filteredbookList = new ArrayList<>();
+        for (Books book : list) {
+            final String title = book.getTitle().toLowerCase();
+            if (title.contains(query)) {
+                filteredbookList.add(book);
+            }
+        }
+        return filteredbookList;
+    }
+
+
+    public boolean onQueryTextSubmit(String query) {
+        List<Books> filteredModelList = filter(mBooksList, query);
+        for(Books b : filteredModelList){
+            Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
+            intent.putExtra("id", b.getId());
+            TagNToast.setToast(getActivity(),"id..............."+b.getId());
+            startActivity(intent);
+        }
+
+        return true;
+    }
+
+
+    public boolean onQueryTextChange(String newText) {
+        final List<Books> filteredModelList = filter(mBooksList, newText);
+        if(newText.equals("")){
+            bookRecycleViewAdapter.setBooksList(mBooksList);
+        }else {
+            bookRecycleViewAdapter.setBooksList(filteredModelList);
+        }
+
+        bookRecycleViewAdapter.notifyDataSetChanged();
+        return true;
+
+    }
+
+   /* public Books removeItem(int position) {
+        final Books book = mBooksList.remove(position);
+        bookRecycleViewAdapter.notifyItemRemoved(position);
+        return book;
+    }
+
+    public void addItem(int position, Books book) {
+        mBooksList.add(position, book);
+        bookRecycleViewAdapter.notifyItemInserted(position);
+    }
+
+    public void moveItem(int fromPosition, int toPosition) {
+        final Books books = mBooksList.remove(fromPosition);
+        mBooksList.add(toPosition, books);
+        bookRecycleViewAdapter.notifyItemMoved(fromPosition, toPosition);
+    }
+
+
+
+    public void animateTo(List<Books> list) {
+        applyAndAnimateRemovals(list);
+        applyAndAnimateAdditions(list);
+        applyAndAnimateMovedItems(list);
+    }
+
+
+
+    private void applyAndAnimateRemovals(List<Books> list) {
+        for (int i = mBooksList.size() - 1; i >= 0; i--) {
+            final Books book = mBooksList.get(i);
+            if (!list.contains(book)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<Books> list) {
+        for (int i = 0, count = list.size(); i < count; i++) {
+            final Books book = list.get(i);
+            if (!list.contains(book)) {
+                addItem(i, book);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<Books> list) {
+        for (int toPosition = list.size() - 1; toPosition >= 0; toPosition--) {
+            final Books book = list.get(toPosition);
+            final int fromPosition = mBooksList.indexOf(book);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+
+    private List<Books> filter(List<Books> list, String query) {
+        query = query.toLowerCase();
+
+        final List<Books> filteredbookList = new ArrayList<>();
+        for (Books book : list) {
+            final String title = book.getTitle().toLowerCase();
+            if (title.contains(query)) {
+                filteredbookList.add(book);
+            }
+        }
+
+        return filteredbookList;
+    }
+
+
+    public boolean onQueryTextSubmit(String query) {
+        List<Books> filteredModelList = filter(mBooksList, query);
+
+        Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
+        intent.putExtra("id", filteredModelList.get(0));
+        startActivity(intent);
+        TagNToast.setLog(query);
+        return true;
+    }
+
+
+    public boolean onQueryTextChange(String newText) {
+        final List<Books> filteredModelList = filter(mBooksList, newText);
+        animateTo(filteredModelList);
+        recyclerViewBook.scrollToPosition(0);
+        return true;
+
+    }
+*/
+
+
+
 }

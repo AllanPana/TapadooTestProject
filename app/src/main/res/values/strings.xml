@@ -8,4 +8,5 @@
     <string name="title_activity_book_details">BookDetailsActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="action_Search">Search</string>
 </resources>
