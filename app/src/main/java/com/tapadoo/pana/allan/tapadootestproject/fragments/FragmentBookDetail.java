@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -25,6 +26,9 @@ import com.tapadoo.pana.allan.tapadootestproject.pojos.Books;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.tapadoo.pana.allan.tapadootestproject.extras.MyConstant.*;
 
@@ -54,6 +58,7 @@ public class FragmentBookDetail extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_detail, container, false);
 
+        progressDialog = new ProgressDialog(getActivity());
         Intent intent = getActivity().getIntent();
         mID = intent.getIntExtra("id", 100);
         textViewDescription = (TextView) view.findViewById(R.id.textViewDescription);
@@ -63,15 +68,23 @@ public class FragmentBookDetail extends Fragment {
         textViewIsbn = (TextView) view.findViewById(R.id.textViewIsbn);
         textViewPrice = (TextView) view.findViewById(R.id.textViewPrice);
 
-        progressDialog = new ProgressDialog(getActivity());
-
-
+        if(savedInstanceState != null){
+            mBook = savedInstanceState.getParcelable(BOOKS_PARCEL);
+            setBookDetails();
+        }else {
             sendJsonRequest(mID);
+        }
+
 
         return view;
     }
 
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+            super.onSaveInstanceState(outState);
+        outState.putParcelable(BOOKS_PARCEL, mBook);
+    }
 
     /**
      * Process networking request using Volley
@@ -112,7 +125,6 @@ public class FragmentBookDetail extends Fragment {
 
 
     public void setBookDetails() {
-
         String currencySmbol=NA;
         if(mBook.getCurrencyCode().equalsIgnoreCase(EUR)){
             currencySmbol="€";

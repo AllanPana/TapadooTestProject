@@ -3,6 +3,7 @@ package com.tapadoo.pana.allan.tapadootestproject.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.tapadoo.pana.allan.tapadootestproject.MyApplication;
 import com.tapadoo.pana.allan.tapadootestproject.R;
 import com.tapadoo.pana.allan.tapadootestproject.activities.BookDetailsActivity;
 import com.tapadoo.pana.allan.tapadootestproject.adapters.BookRecycleViewAdapter;
@@ -42,11 +44,7 @@ import static com.tapadoo.pana.allan.tapadootestproject.extras.MyConstant.*;
  */
 public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter.MyRecyclerViewOnClickListener{
 
-    private static final String END_POINT_URL = "http://tpbookserver.herokuapp.com/books ";
-    private static final String BOOKS_PARCEL = "booksParcel";
-
-
-
+    /*private static final String END_POINT_URL = "http://tpbookserver.herokuapp.com/books ";*/
 
     private ProgressDialog progressDialog;
     private RecyclerView recyclerViewBook;
@@ -76,12 +74,14 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
         if(savedInstanceState != null){
             mBooksList = savedInstanceState.getParcelableArrayList(BOOKS_PARCEL);
-            bookRecycleViewAdapter.setBooksList(mBooksList);
+
         }else {
-            sendJSonRequest();
+            //sendJSonRequest();
+            mBooksList = MyApplication.getWritableBookDatabase().getAllBooks();
         }
 
 
+        bookRecycleViewAdapter.setBooksList(mBooksList);
         return view;
     }
 
@@ -98,9 +98,9 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
     }
 
-    /**
+   /* *//**
      * Process networking request
-     */
+     *//*
     private void sendJSonRequest() {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(END_POINT_URL,
                 new Response.Listener<JSONArray>() {
@@ -111,6 +111,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
                         bookRecycleViewAdapter.setBooksList(mBooksList);
                         if(progressDialog != null && progressDialog.isShowing()){
                             progressDialog.dismiss();
+                            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                         }
                     }
                 },
@@ -130,14 +131,15 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
         VolleySingleton.getInstance().addToRequestQueue(jsonArrayRequest);
         Util.showProgressBar(progressDialog);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
     }
 
 
 
 
-    /**
+    *//**
      * @param jsonArray = jsonResponse from Volley
-     */
+     *//*
     private List<Books> parseJSonResponse(JSONArray jsonArray) {
         List<Books> list = new ArrayList<>();
         if (jsonArray != null && jsonArray.length() > 0) {
@@ -153,9 +155,9 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
                     String currencyCode = NA;
                     String author = NA;
 
-                    /**
+                    *//**
                      * Check the jsonObject if has a key and not null
-                     */
+                     *//*
                     if (jsonObject.has(KEY_ID) && !jsonObject.isNull(KEY_ID)) {
                         id = jsonObject.getInt(KEY_ID);
                     }
@@ -165,9 +167,9 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
                     if (jsonObject.has(KEY_ISBN) && !jsonObject.isNull(KEY_ISBN)) {
                         isbn = jsonObject.getString(KEY_ISBN);
                     }
-                    /*if(jsonObject.has(KEY_DESCRIPTION) && !jsonObject.isNull(KEY_DESCRIPTION)){
+                    *//*if(jsonObject.has(KEY_DESCRIPTION) && !jsonObject.isNull(KEY_DESCRIPTION)){
                         description = jsonObject.getString(KEY_DESCRIPTION);
-                    }*/
+                    }*//*
                     if (jsonObject.has(KEY_PRICE) && !jsonObject.isNull(KEY_PRICE)) {
                         price = jsonObject.getInt(KEY_PRICE);
                     }
@@ -192,7 +194,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
         }
         return list;
     }
-
+*/
 
     /**
      *

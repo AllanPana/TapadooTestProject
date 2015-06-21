@@ -3,12 +3,15 @@ package com.tapadoo.pana.allan.tapadootestproject;
 import android.app.Application;
 import android.content.Context;
 
+import com.tapadoo.pana.allan.tapadootestproject.database.BookDatabase;
+
 /**
  * Created by allan on 15/06/15.
  */
 public class MyApplication extends Application {
 
     private static MyApplication myApplicationInstance;
+    private static BookDatabase bookDatabase;
 
     @Override
     public void onCreate() {
@@ -34,6 +37,15 @@ public class MyApplication extends Application {
     public static Context getAppContext(){
         Context context = myApplicationInstance.getApplicationContext();
         return context;
+    }
+
+
+    public synchronized static BookDatabase getWritableBookDatabase(){
+
+        if(bookDatabase == null){
+            bookDatabase = new BookDatabase(getAppContext());
+        }
+        return bookDatabase;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.tapadoo.pana.allan.tapadootestproject.activities;
 
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +18,10 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.tapadoo.pana.allan.tapadootestproject.R;
 import com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentAllBooks;
 import com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentBookDetail;
+import com.tapadoo.pana.allan.tapadootestproject.services.MyService;
+
+import me.tatarka.support.job.JobInfo;
+import me.tatarka.support.job.JobScheduler;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SearchView.OnQueryTextListener {
@@ -24,15 +29,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String SORT_AUTHOR = "sortAuthor";
     private static final String SORT_TITLE = "sortTitle";
     private static final String SORT_PRICE = "sortPrice";
+    private static final int JOB_ID = 100;
     private Toolbar toolbar;
     private FragmentAllBooks fragmentAllBook;
     private FragmentBookDetail fragmentBookDetail;
     private FragmentManager fragmentManager;
 
+    private JobScheduler jobScheduler;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        jobScheduler = JobScheduler.getInstance(this);
+        constructJob();
 
         toolbar = (Toolbar) findViewById(R.id.appBar);
         setSupportActionBar(toolbar);
@@ -146,5 +158,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     //SearchView setup end
 
+
+    /**
+     * 1.Build a jobservice
+     * 2.Schedule the job by pasing the jobinfo into the jobscheduler
+     */
+    public void constructJob(){
+        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID,new ComponentName(this, MyService.class));
+
+        builder.setPeriodic(5000)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setPersisted(true);
+
+        jobScheduler.schedule(builder.build());
+    }
 
 }//class end

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by allan on 15/06/15.
  */
-public class Books implements Parcelable{
+public class Books implements Parcelable {
 
 
     private int id;
@@ -21,12 +21,13 @@ public class Books implements Parcelable{
     public Books() {
     }
 
-    public Books(int id, String title, String author, int price, String currencyCode) {
+    public Books(int id, String title, String isbn, int price, String currencyCode, String author) {
         this.id = id;
         this.title = title;
         this.price = price;
         this.author = author;
         this.currencyCode = currencyCode;
+        this.isbn = isbn;
     }
 
 
@@ -46,15 +47,15 @@ public class Books implements Parcelable{
         this.author = author;
     }
 
-    public Books(Parcel in){
+    public Books(Parcel in) {
 
-        id=in.readInt();
-        title=in.readString();
-        isbn=in.readString();
-        description=in.readString();
-        price=in.readInt();
-        currencyCode=in.readString();
-        author=in.readString();
+        id = in.readInt();
+        title = in.readString();
+        isbn = in.readString();
+        description = in.readString();
+        price = in.readInt();
+        currencyCode = in.readString();
+        author = in.readString();
     }
 
     public int getId() {
@@ -114,8 +115,6 @@ public class Books implements Parcelable{
     }
 
 
-
-
     @Override
     public int describeContents() {
         return 0;
@@ -133,7 +132,7 @@ public class Books implements Parcelable{
     }
 
     /**
-     *  a static field called CREATOR, which is an object implementing the Parcelable.Creator interface.
+     * a static field called CREATOR, which is an object implementing the Parcelable.Creator interface.
      */
     public static final Parcelable.Creator<Books> CREATOR
             = new Parcelable.Creator<Books>() {
