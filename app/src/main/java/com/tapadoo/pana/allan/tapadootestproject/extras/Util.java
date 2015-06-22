@@ -36,7 +36,7 @@ public class Util {
      * @param progressBar
      */
     public static void showProgressBar(ProgressDialog progressBar){
-        progressBar.setMessage("Connecting to server....");
+        progressBar.setMessage("Please wait....");
         progressBar.setCancelable(false);
         progressBar.setIndeterminate(true);
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);

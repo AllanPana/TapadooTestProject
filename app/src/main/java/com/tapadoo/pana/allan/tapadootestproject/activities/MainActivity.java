@@ -166,7 +166,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void constructJob(){
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID,new ComponentName(this, MyService.class));
 
-        builder.setPeriodic(5000)
+        //polling time every 30minutes
+        builder.setPeriodic(1800000)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
                 .setPersisted(true);
 

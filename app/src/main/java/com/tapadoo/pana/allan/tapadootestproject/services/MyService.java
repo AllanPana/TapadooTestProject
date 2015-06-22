@@ -45,7 +45,7 @@ public class MyService extends JobService {
     //Return true if you want to run the job in a separate thread
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
-        //Util.setToast(this,"onStart Job called");
+        Util.setToast(this,"onStart Job called");
        new MyTask(this).execute(jobParameters);
         return true;
     }
@@ -82,12 +82,14 @@ public class MyService extends JobService {
 
         @Override
         protected void onPostExecute(JobParameters jobParameters) {
-            myService.jobFinished(jobParameters,false);
+            myService.jobFinished(jobParameters, false);
+            //Util.setToast(MyApplication.getAppContext(),"new list of books inserted into database");
             super.onPostExecute(jobParameters);
         }
 
         /**
          * Process networking request
+         * Volley has its own thread but this time I tell Volley use doInBackground thread by using RequestFuture
          */
         private JSONArray sendJSonArrayRequest() {
             JSONArray jsonArrayResponse = null;
@@ -102,10 +104,9 @@ public class MyService extends JobService {
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             VolleySingleton.getInstance().addToRequestQueue(jsonArrayRequest);
-            //Util.showProgressBar(progressDialog);
-            //getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 
             try {
+                //request future will activate @ 30seconds after the app first run
                 jsonArrayResponse = requestFuture.get(30000, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
                 Util.setLog(e+"");
@@ -165,7 +166,7 @@ public class MyService extends JobService {
                             author = jsonObject.getString(KEY_AUTHOR);
                         }
 
-                        //create books object with title, author, price
+                        //create books object
                         Books books = new Books(id,title,isbn, price,currencyCode, author);
                         // only add the data into books if  title has a right value and id not =0
                         if ((!title.equals(NA)) && id != 0) {

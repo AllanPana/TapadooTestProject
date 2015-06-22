@@ -41,7 +41,6 @@ public class MyApplication extends Application {
 
 
     public synchronized static BookDatabase getWritableBookDatabase(){
-
         if(bookDatabase == null){
             bookDatabase = new BookDatabase(getAppContext());
         }

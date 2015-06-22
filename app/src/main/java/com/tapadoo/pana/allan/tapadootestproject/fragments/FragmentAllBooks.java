@@ -44,7 +44,7 @@ import static com.tapadoo.pana.allan.tapadootestproject.extras.MyConstant.*;
  */
 public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter.MyRecyclerViewOnClickListener{
 
-    /*private static final String END_POINT_URL = "http://tpbookserver.herokuapp.com/books ";*/
+    private static final String END_POINT_URL = "http://tpbookserver.herokuapp.com/books ";
 
     private ProgressDialog progressDialog;
     private RecyclerView recyclerViewBook;
@@ -72,16 +72,23 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
         progressDialog = new ProgressDialog(getActivity());
 
-        if(savedInstanceState != null){
+        ArrayList<Books> listFromDB = MyApplication.getWritableBookDatabase().getAllBooks();
+
+        if(savedInstanceState != null) {
             mBooksList = savedInstanceState.getParcelableArrayList(BOOKS_PARCEL);
 
+        }else if(savedInstanceState == null && listFromDB.isEmpty()){
+            sendJSonRequest();
+
         }else {
-            //sendJSonRequest();
-            mBooksList = MyApplication.getWritableBookDatabase().getAllBooks();
+
+            mBooksList = listFromDB;
         }
 
 
         bookRecycleViewAdapter.setBooksList(mBooksList);
+
+        //sendJSonRequest();
         return view;
     }
 
@@ -98,9 +105,8 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
     }
 
-   /* *//**
-     * Process networking request
-     *//*
+
+
     private void sendJSonRequest() {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(END_POINT_URL,
                 new Response.Listener<JSONArray>() {
@@ -137,9 +143,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
 
 
-    *//**
-     * @param jsonArray = jsonResponse from Volley
-     *//*
+
     private List<Books> parseJSonResponse(JSONArray jsonArray) {
         List<Books> list = new ArrayList<>();
         if (jsonArray != null && jsonArray.length() > 0) {
@@ -155,9 +159,8 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
                     String currencyCode = NA;
                     String author = NA;
 
-                    *//**
-                     * Check the jsonObject if has a key and not null
-                     *//*
+
+
                     if (jsonObject.has(KEY_ID) && !jsonObject.isNull(KEY_ID)) {
                         id = jsonObject.getInt(KEY_ID);
                     }
@@ -167,9 +170,9 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
                     if (jsonObject.has(KEY_ISBN) && !jsonObject.isNull(KEY_ISBN)) {
                         isbn = jsonObject.getString(KEY_ISBN);
                     }
-                    *//*if(jsonObject.has(KEY_DESCRIPTION) && !jsonObject.isNull(KEY_DESCRIPTION)){
+                    /*if(jsonObject.has(KEY_DESCRIPTION) && !jsonObject.isNull(KEY_DESCRIPTION)){
                         description = jsonObject.getString(KEY_DESCRIPTION);
-                    }*//*
+                    }*/
                     if (jsonObject.has(KEY_PRICE) && !jsonObject.isNull(KEY_PRICE)) {
                         price = jsonObject.getInt(KEY_PRICE);
                     }
@@ -181,7 +184,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
                     }
 
                     //create books object with title, author, price
-                    Books books = new Books(id,title, author, price,currencyCode);
+                    Books books = new Books(id,title,isbn, price,currencyCode, author);
                     // only add the data into books if  title has a right value and id not =0
                     if ((!title.equals(NA)) && id != 0) {
                         list.add(books);
@@ -194,7 +197,6 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
         }
         return list;
     }
-*/
 
     /**
      *
@@ -212,7 +214,6 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
         //check if your layout in a landscape orientation
         if(fragmentBookDetail != null && fragmentBookDetail.isVisible()){
             Util.setLog("landscape mode................" + book.getId());
-            //fragmentBookDetail.setBookDetails(fragmentBookDetail.mBook);
             fragmentBookDetail.sendJsonRequest(book.getId());
 
         }else {
@@ -225,6 +226,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
     }
 
 
+    //SORTING=======================================================================================
     /**
      * Sort books by Title
      */
@@ -275,8 +277,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
 
 
-    //SEARCHVIEW IMPLEMENTATION
-
+    //SEARCHVIEW IMPLEMENTATION=====================================================================
 
     /**
      *

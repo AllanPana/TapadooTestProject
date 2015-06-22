@@ -1,0 +1,134 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="1.0"
+    tools:context="com.tapadoo.pana.allan.tapadootestproject.fragments.FragmentBookDetail">
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.0"
+        android:layout_margin="@dimen/small_padding"
+        android:scrollbars="vertical"
+        android:visibility="gone"
+        android:padding="@dimen/medium_padding"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:weightSum="2.0">
+            <TextView
+                android:id="@+id/textViewLblTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="@dimen/small_text"
+                android:text="Title" />
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:textSize="@dimen/small_text"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:weightSum="2.0">
+            <TextView
+                android:id="@+id/textViewLblAuthor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="@dimen/small_text"
+                android:text="Author" />
+            <TextView
+                android:id="@+id/textViewAuthor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:textSize="@dimen/small_text"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:weightSum="2.0">
+            <TextView
+                android:id="@+id/textViewLblIsbn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="@dimen/small_text"
+                android:text="ISBN" />
+            <TextView
+                android:id="@+id/textViewIsbn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:textSize="@dimen/small_text"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:weightSum="2.0">
+            <TextView
+                android:id="@+id/textViewLblPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textSize="@dimen/small_text"
+                android:text="Price" />
+            <TextView
+                android:id="@+id/textViewPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:textSize="@dimen/small_text"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/small_padding"
+        android:layout_weight="1.0">
+
+
+
+        <TextView
+            android:id="@+id/textViewDescription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/large_padding"
+            android:background="#5e5c6ab0"
+            android:scrollbars="vertical"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/small_text" />
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

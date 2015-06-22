@@ -70,7 +70,7 @@ public class FragmentBookDetail extends Fragment {
 
         if(savedInstanceState != null){
             mBook = savedInstanceState.getParcelable(BOOKS_PARCEL);
-            setBookDetails();
+            setBookDetails(mBook);
         }else {
             sendJsonRequest(mID);
         }
@@ -98,7 +98,7 @@ public class FragmentBookDetail extends Fragment {
                     public void onResponse(JSONObject jsonObject) {
                         textViewDescription.setTextColor(Color.BLACK);
                         mBook = parseJsonResponse(jsonObject);
-                        setBookDetails();
+                        setBookDetails(mBook);
                         if(progressDialog != null && progressDialog.isShowing()){
                             progressDialog.dismiss();
                         }
@@ -124,25 +124,25 @@ public class FragmentBookDetail extends Fragment {
     }
 
 
-    public void setBookDetails() {
+    public void setBookDetails(Books book) {
         String currencySmbol=NA;
-        if(mBook.getCurrencyCode().equalsIgnoreCase(EUR)){
+        if(book.getCurrencyCode().equalsIgnoreCase(EUR)){
             currencySmbol="€";
         }
-        if(mBook.getCurrencyCode().equalsIgnoreCase(GBP)){
+        if(book.getCurrencyCode().equalsIgnoreCase(GBP)){
             currencySmbol="£";
         }
-        if(mBook.getCurrencyCode().equalsIgnoreCase(USD)){
+        if(book.getCurrencyCode().equalsIgnoreCase(USD)){
             currencySmbol="$";
         }
 
-        double p = mBook.getPrice();
+        double p = book.getPrice();
         double price = p/100;
 
-        textViewDescription.setText(mBook.getDescription());
-        textViewTitle.setText(mBook.getTitle());
-        textViewAuthor.setText(mBook.getAuthor());
-        textViewIsbn.setText(mBook.getIsbn());
+        textViewDescription.setText(book.getDescription());
+        textViewTitle.setText(book.getTitle());
+        textViewAuthor.setText(book.getAuthor());
+        textViewIsbn.setText(book.getIsbn());
         textViewPrice.setText(currencySmbol+price);
     }
 
@@ -184,5 +184,7 @@ public class FragmentBookDetail extends Fragment {
         return books;
 
     }
+
+
 
 }
