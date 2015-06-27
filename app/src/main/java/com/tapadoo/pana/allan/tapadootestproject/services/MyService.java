@@ -45,7 +45,7 @@ public class MyService extends JobService {
     //Return true if you want to run the job in a separate thread
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
-        Util.setToast(this,"onStart Job called");
+        //Util.setToast(this,"onStart Job called");
        new MyTask(this).execute(jobParameters);
         return true;
     }

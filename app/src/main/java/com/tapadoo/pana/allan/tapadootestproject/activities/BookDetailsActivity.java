@@ -21,6 +21,4 @@ public class BookDetailsActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.appBar);
         setSupportActionBar(toolbar);
     }
-
-
 }

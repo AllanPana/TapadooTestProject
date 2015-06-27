@@ -50,7 +50,9 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
     private RecyclerView recyclerViewBook;
     private BookRecycleViewAdapter bookRecycleViewAdapter;
     private List<Books> mBooksList;
+    private ArrayList<Books> listFromDB;
     private TextView textViewVolleyError;
+    private FragmentManager fragmentManager;
 
     public FragmentAllBooks() {
         // Required empty public constructor
@@ -61,6 +63,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_books, container, false);
+        fragmentManager = getActivity().getSupportFragmentManager();
         mBooksList = new ArrayList<>();
         textViewVolleyError = (TextView) view.findViewById(R.id.textViewVolleyError);
         recyclerViewBook = (RecyclerView) view.findViewById(R.id.recycleViewBook);
@@ -72,7 +75,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
         progressDialog = new ProgressDialog(getActivity());
 
-        ArrayList<Books> listFromDB = MyApplication.getWritableBookDatabase().getAllBooks();
+        listFromDB = MyApplication.getWritableBookDatabase().getAllBooks();
 
         if(savedInstanceState != null) {
             mBooksList = savedInstanceState.getParcelableArrayList(BOOKS_PARCEL);
@@ -206,7 +209,7 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
     @Override
     public void myREcyclerViewOnClick(View view, int position) {
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
         FragmentBookDetail fragmentBookDetail =
                 (FragmentBookDetail) fragmentManager.findFragmentById(R.id.fragmentBookDetails);
         Books book = mBooksList.get(position);
@@ -287,7 +290,6 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
      */
     private List<Books> filter(List<Books> list, String query) {
         query = query.toLowerCase();
-
         final List<Books> filteredbookList = new ArrayList<>();
         for (Books book : list) {
             final String title = book.getTitle().toLowerCase();
@@ -301,121 +303,31 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
 
     public boolean onQueryTextSubmit(String query) {
         List<Books> filteredModelList = filter(mBooksList, query);
+
         for(Books b : filteredModelList){
             Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
             intent.putExtra("id", b.getId());
             Util.setToast(getActivity(), "id..............." + b.getId());
             startActivity(intent);
         }
-
         return true;
     }
 
 
     public boolean onQueryTextChange(String newText) {
-        final List<Books> filteredModelList = filter(mBooksList, newText);
+        List<Books> filteredModelList = filter(mBooksList, newText);
         if(newText.equals("")){
+            mBooksList = listFromDB;
             bookRecycleViewAdapter.setBooksList(mBooksList);
         }else {
-            bookRecycleViewAdapter.setBooksList(filteredModelList);
+            mBooksList  = filteredModelList;
+        bookRecycleViewAdapter.setBooksList(mBooksList);
         }
 
         bookRecycleViewAdapter.notifyDataSetChanged();
         return true;
 
     }
-
-   /* public Books removeItem(int position) {
-        final Books book = mBooksList.remove(position);
-        bookRecycleViewAdapter.notifyItemRemoved(position);
-        return book;
-    }
-
-    public void addItem(int position, Books book) {
-        mBooksList.add(position, book);
-        bookRecycleViewAdapter.notifyItemInserted(position);
-    }
-
-    public void moveItem(int fromPosition, int toPosition) {
-        final Books books = mBooksList.remove(fromPosition);
-        mBooksList.add(toPosition, books);
-        bookRecycleViewAdapter.notifyItemMoved(fromPosition, toPosition);
-    }
-
-
-
-    public void animateTo(List<Books> list) {
-        applyAndAnimateRemovals(list);
-        applyAndAnimateAdditions(list);
-        applyAndAnimateMovedItems(list);
-    }
-
-
-
-    private void applyAndAnimateRemovals(List<Books> list) {
-        for (int i = mBooksList.size() - 1; i >= 0; i--) {
-            final Books book = mBooksList.get(i);
-            if (!list.contains(book)) {
-                removeItem(i);
-            }
-        }
-    }
-
-    private void applyAndAnimateAdditions(List<Books> list) {
-        for (int i = 0, count = list.size(); i < count; i++) {
-            final Books book = list.get(i);
-            if (!list.contains(book)) {
-                addItem(i, book);
-            }
-        }
-    }
-
-    private void applyAndAnimateMovedItems(List<Books> list) {
-        for (int toPosition = list.size() - 1; toPosition >= 0; toPosition--) {
-            final Books book = list.get(toPosition);
-            final int fromPosition = mBooksList.indexOf(book);
-            if (fromPosition >= 0 && fromPosition != toPosition) {
-                moveItem(fromPosition, toPosition);
-            }
-        }
-    }
-
-
-    private List<Books> filter(List<Books> list, String query) {
-        query = query.toLowerCase();
-
-        final List<Books> filteredbookList = new ArrayList<>();
-        for (Books book : list) {
-            final String title = book.getTitle().toLowerCase();
-            if (title.contains(query)) {
-                filteredbookList.add(book);
-            }
-        }
-
-        return filteredbookList;
-    }
-
-
-    public boolean onQueryTextSubmit(String query) {
-        List<Books> filteredModelList = filter(mBooksList, query);
-
-        Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
-        intent.putExtra("id", filteredModelList.get(0));
-        startActivity(intent);
-        Util.setLog(query);
-        return true;
-    }
-
-
-    public boolean onQueryTextChange(String newText) {
-        final List<Books> filteredModelList = filter(mBooksList, newText);
-        animateTo(filteredModelList);
-        recyclerViewBook.scrollToPosition(0);
-        return true;
-
-    }
-*/
-
 
 
 }

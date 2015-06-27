@@ -10,6 +10,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
@@ -44,13 +45,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         jobScheduler = JobScheduler.getInstance(this);
-        constructJob();
 
         toolbar = (Toolbar) findViewById(R.id.appBar);
         setSupportActionBar(toolbar);
         fragmentManager = getSupportFragmentManager();
         fragmentAllBook = (FragmentAllBooks) fragmentManager.findFragmentById(R.id.fragmentAllBook);
 
+        constructJob();
         setFAB();
 
     }
@@ -72,7 +73,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
-
+        searchView.setImeOptions(searchView.getImeOptions()
+                | EditorInfo.IME_ACTION_SEARCH
+                | EditorInfo.IME_FLAG_NO_EXTRACT_UI
+                | EditorInfo.IME_FLAG_NO_FULLSCREEN);
 
         searchView.setOnQueryTextListener(this);
         return true;
@@ -166,10 +170,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void constructJob(){
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID,new ComponentName(this, MyService.class));
 
-        //polling time every 30minutes
+        //polling/interval every 30minutes
         builder.setPeriodic(1800000)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setRequiresCharging(true)
                 .setPersisted(true);
+
+
 
         jobScheduler.schedule(builder.build());
     }
