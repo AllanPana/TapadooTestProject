@@ -9,6 +9,9 @@ import android.widget.Toast;
 
 import com.tapadoo.pana.allan.tapadootestproject.MyApplication;
 
+import java.text.NumberFormat;
+import java.util.Currency;
+
 /**
  * Created by allan on 15/06/15.
  */
@@ -33,13 +36,36 @@ public class Util {
 
     /**
      * Progressbar
-     * @param progressBar
+     * @param progressDialog
      */
-    public static void showProgressBar(ProgressDialog progressBar){
-        progressBar.setMessage("Please wait....");
-        progressBar.setCancelable(false);
-        progressBar.setIndeterminate(true);
-        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressBar.show();
+    public static void showProgressBar(ProgressDialog progressDialog){
+        progressDialog.setMessage("Please wait....");
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
+    }
+
+    public static void dismissProgressBar(ProgressDialog progressDialog){
+        if(progressDialog != null && progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
+    }
+
+
+    /**
+     * Format the currency pricing
+     * @param isoCurrencyCode
+     * @param amount
+     * @return
+     */
+    public static String getFormattedCurrency(String isoCurrencyCode, double amount){
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+
+        numberFormat.setCurrency(Currency.getInstance(isoCurrencyCode));
+        String currencyAmount = numberFormat.format(amount);
+
+        return currencyAmount;
     }
 }

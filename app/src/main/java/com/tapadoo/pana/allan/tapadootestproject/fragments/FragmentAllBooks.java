@@ -118,19 +118,16 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
                         textViewVolleyError.setVisibility(View.GONE);
                         mBooksList = parseJSonResponse(jsonArray);
                         bookRecycleViewAdapter.setBooksList(mBooksList);
-                        if(progressDialog != null && progressDialog.isShowing()){
-                            progressDialog.dismiss();
+                        Util.dismissProgressBar(progressDialog);
                             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-                        }
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         VolleyErrorHandler.handleVolleyError(volleyError, textViewVolleyError);
-                        if(progressDialog != null && progressDialog.isShowing()){
-                            progressDialog.dismiss();
-                        }
+                        Util.dismissProgressBar(progressDialog);
                     }
                 });
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tapadoo.pana.allan.tapadootestproject.R;
+import com.tapadoo.pana.allan.tapadootestproject.extras.Util;
 import com.tapadoo.pana.allan.tapadootestproject.pojos.Books;
 import static com.tapadoo.pana.allan.tapadootestproject.extras.MyConstant.*;
 
@@ -48,22 +49,11 @@ public class BookRecycleViewAdapter extends RecyclerView.Adapter<BookRecycleView
     @Override
     public void onBindViewHolder(ViewHolderBook holder, int position) {
         book = booksList.get(position);
-        String currencySmbol=NA;
-        if(book.getCurrencyCode().equalsIgnoreCase(EUR)){
-            currencySmbol="€";
-        }
-        if(book.getCurrencyCode().equalsIgnoreCase(GBP)){
-            currencySmbol="£";
-        }
-        if(book.getCurrencyCode().equalsIgnoreCase(USD)){
-            currencySmbol="$";
-        }
+        double bookPrice = book.getPrice()/100.0;
 
-        double p = book.getPrice();
-        double price = p/100;
         holder.textViewTitle.setText(book.getTitle());
         holder.textViewAuthor.setText(book.getAuthor());
-        holder.textViewPrice.setText(currencySmbol+price);
+        holder.textViewPrice.setText(Util.getFormattedCurrency(book.getCurrencyCode(), bookPrice));
     }
 
     @Override

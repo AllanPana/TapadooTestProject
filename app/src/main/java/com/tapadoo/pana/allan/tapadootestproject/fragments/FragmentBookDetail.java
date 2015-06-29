@@ -3,6 +3,7 @@ package com.tapadoo.pana.allan.tapadootestproject.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -99,9 +100,8 @@ public class FragmentBookDetail extends Fragment {
                         textViewDescription.setTextColor(Color.BLACK);
                         mBook = parseJsonResponse(jsonObject);
                         setBookDetails(mBook);
-                        if(progressDialog != null && progressDialog.isShowing()){
-                            progressDialog.dismiss();
-                        }
+                        Util.dismissProgressBar(progressDialog);
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -109,9 +109,7 @@ public class FragmentBookDetail extends Fragment {
                     public void onErrorResponse(VolleyError volleyError) {
                         textViewDescription.setTextColor(Color.RED);
                         VolleyErrorHandler.handleVolleyError(volleyError, textViewDescription);
-                        if(progressDialog != null && progressDialog.isShowing()){
-                            progressDialog.dismiss();
-                        }
+                        Util.dismissProgressBar(progressDialog);
                     }
                 });
 
@@ -121,6 +119,7 @@ public class FragmentBookDetail extends Fragment {
 
         VolleySingleton.getInstance().addToRequestQueue(jsonObjectRequest);
         Util.showProgressBar(progressDialog);
+
     }
 
 
