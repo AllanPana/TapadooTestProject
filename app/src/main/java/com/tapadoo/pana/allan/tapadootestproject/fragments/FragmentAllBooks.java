@@ -206,7 +206,6 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
     @Override
     public void myREcyclerViewOnClick(View view, int position) {
 
-
         FragmentBookDetail fragmentBookDetail =
                 (FragmentBookDetail) fragmentManager.findFragmentById(R.id.fragmentBookDetails);
         Books book = mBooksList.get(position);
@@ -304,7 +303,6 @@ public class FragmentAllBooks extends Fragment implements BookRecycleViewAdapter
         for(Books b : filteredModelList){
             Intent intent = new Intent(getActivity(), BookDetailsActivity.class);
             intent.putExtra("id", b.getId());
-            Util.setToast(getActivity(), "id..............." + b.getId());
             startActivity(intent);
         }
         return true;
